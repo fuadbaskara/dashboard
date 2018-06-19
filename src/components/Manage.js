@@ -11,32 +11,21 @@ class Manage extends Component {
     super();
     this.state = {
       users: {
-        metadata: null,
-        servicedata: null
+        metadata: null
       }
     };
-    this.getDataTraveller = this.getDataTraveller.bind(this);
-    this.getDataPhotographer = this.getDataPhotographer.bind(this);
+    this.getData = this.getData.bind(this);
   }
 
-  async getDataTraveller() {
-    // let userType = `${this.props.match.params.usertype}`;
+  async getData() {
+    let userType = `${this.props.match.params.usertype}`;
     let uid = `${this.props.match.params.uid}`;
-    // let displayName = `${this.props.match.params.displayName}`;
-    // let queryParams = ``;
-    // console.log(userType);
-    // console.log(uid);
-    // console.log(displayName);
-    // if (userType === "p") {
+    let displayName = `${this.props.match.params.displayName}`;
+
     let queryParams = `${
       process.env.REACT_APP_API_HOSTNAME
-    }/api/photographers/${uid}`;
-    // } else {
-    //   queryParams = `${
-    //     process.env.REACT_APP_API_HOSTNAME
-    //   }/api/admin/users/?userType=${userType}&filter[${uid}]=${displayName}`;
-    // }
-    console.log(queryParams);
+    }/api/admin/users/?userType=${userType}&filter[${uid}]=${displayName}`;
+
     await axios
       .get(queryParams)
       .then(response => {
@@ -53,55 +42,27 @@ class Manage extends Component {
       });
   }
 
-  async getDataPhotographer() {
-    let userType = `${this.props.match.params.usertype}`;
-    let uid = `${this.props.match.params.uid}`;
-    let displayName = `${this.props.match.params.displayName}`;
-
-    let queryParams = `${
-      process.env.REACT_APP_API_HOSTNAME
-    }/api/admin/users/?userType=${userType}&filter[${uid}]=${displayName}`;
-
-    await axios
-      .get(queryParams)
-      .then(response => {
-        if (response.data.data.length > 0) {
-          this.setState({
-            users: {
-              servicedata: response.data.data[0]
-            }
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
   async componentDidMount() {
-    await this.getDataTraveller();
-    await this.getDataPhotographer();
+    await this.getData();
     console.log(this.state.users.metadata);
-    console.log(this.state.users.servicedata);
-    console.log(this.state.users.servicedata.countryName);
   }
 
   render() {
     return (
       <Page>
         {this.state.users &&
-        this.state.users.servicedata &&
-        this.state.users.servicedata.countryName ? (
+        this.state.users.metadata &&
+        this.state.users.metadata.displayName ? (
           <div className="container">
             <Form>
               <FormGroup>
-                <Label for="exampleEmail">Country</Label>
+                <Label for="exampleEmail">Display Name</Label>
                 <Input
                   type="email"
                   name="email"
                   id="exampleEmail"
                   placeholder="with a placeholder"
-                  value={this.state.users.servicedata.countryName}
+                  value={this.state.users.metadata.displayName}
                 />
               </FormGroup>
             </Form>
@@ -110,7 +71,7 @@ class Manage extends Component {
           <div className="container">
             <Form>
               <FormGroup>
-                <Label for="exampleEmail">Country</Label>
+                <Label for="exampleEmail">Display Name</Label>
                 <Input
                   type="email"
                   name="email"

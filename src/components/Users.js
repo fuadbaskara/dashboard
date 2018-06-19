@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import ReactTable from "react-table";
 import axios from "axios";
-import { Link } from "react-router-dom";
-// import map from 'lodash/map';
+import { Route, Link } from "react-router-dom";
 import "react-table/react-table.css";
-// import { database } from "../services/database";
 
 import Page from "../Page";
 import Manage from "./Manage";
@@ -14,7 +12,6 @@ class Users extends Component {
     super();
     this.state = {
       users: {
-        loaded: false,
         data: [],
         totalData: 0
       }
@@ -107,6 +104,7 @@ class Users extends Component {
       {
         Header: "Status",
         accessor: "enable",
+
         Cell: row =>
           row.value === 1 ? (
             <div>
@@ -196,27 +194,76 @@ class Users extends Component {
 
     return (
       <Page>
-        <h2>Users</h2>
-        <ReactTable
-          style={{ height: "720px" }}
-          columns={columns}
-          showPagination
-          data={this.state.users.data}
-          pages={pages}
-          loading={this.state.users.loading}
-          onFetchData={this.fetchUsersData}
-          filterable
-          defaultFilterMethod={(filter, row, column) => {
-            const id = filter.pivotId || filter.id;
-            return row[id] !== undefined
-              ? String(row[id].toLowerCase())
-                  .toLowerCase()
-                  .includes(filter.value)
-              : true;
-          }}
-          defaultSorted={sorting}
-          defaultPageSize={50}
-          className="-striped -highlight"
+        <div className="d-flex justify-content-start">
+          <h2 className="mr-5">Users</h2>
+          <div className="mr-3">
+            <Link to={`/users/t`}>
+              <button className="btn btn-dark btn-info btn-sm">
+                Traveller's Data
+              </button>
+            </Link>
+          </div>
+          <div className="mr-5">
+            <Link to={`/users/p`}>
+              <button className="btn btn-dark btn-info btn-sm">
+                Photographer's Data
+              </button>
+            </Link>
+          </div>
+        </div>
+        <Route
+          exact
+          path={`/users/p`}
+          render={() => (
+            <ReactTable
+              style={{ height: "720px" }}
+              columns={columns}
+              showPagination
+              data={this.state.users.data}
+              pages={pages}
+              loading={this.state.users.loading}
+              onFetchData={this.fetchUsersData}
+              filterable
+              defaultFilterMethod={(filter, row, column) => {
+                const id = filter.pivotId || filter.id;
+                return row[id] !== undefined
+                  ? String(row[id])
+                      .toLowerCase()
+                      .includes(filter.value)
+                  : true;
+              }}
+              defaultSorted={sorting}
+              defaultPageSize={50}
+              className="-striped -highlight"
+            />
+          )}
+        />
+        <Route
+          exact
+          path={`/users/t`}
+          render={() => (
+            <ReactTable
+              style={{ height: "720px" }}
+              columns={columns}
+              showPagination
+              data={this.state.users.data}
+              pages={pages}
+              loading={this.state.users.loading}
+              onFetchData={this.fetchUsersData}
+              filterable
+              defaultFilterMethod={(filter, row, column) => {
+                const id = filter.pivotId || filter.id;
+                return row[id] !== undefined
+                  ? String(row[id])
+                      .toLowerCase()
+                      .includes(filter.value)
+                  : true;
+              }}
+              defaultSorted={sorting}
+              defaultPageSize={50}
+              className="-striped -highlight"
+            />
+          )}
         />
       </Page>
     );
