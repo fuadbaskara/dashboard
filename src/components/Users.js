@@ -104,7 +104,7 @@ class Users extends Component {
       {
         Header: "Status",
         accessor: "enable",
-
+        width: 190,
         Cell: row =>
           row.value === 1 ? (
             <div>
@@ -112,8 +112,8 @@ class Users extends Component {
                 <div className="d-flex justify-content-around">
                   <div>Active </div>
                   <div style={{ textAlign: "center" }}>
-                    <a
-                      className="btn btn-info btn-sm text-light ml-3"
+                    <button
+                      className="btn btn-info btn-sm text-light ml-3 btn-danger"
                       onClick={() => {
                         this.editStatusSuspend(
                           row.original.uid,
@@ -122,7 +122,7 @@ class Users extends Component {
                       }}
                     >
                       Suspend
-                    </a>
+                    </button>
                   </div>
                 </div>
               )}
@@ -133,8 +133,8 @@ class Users extends Component {
                 <div className="d-flex justify-content-around">
                   <div>Suspend </div>
                   <div style={{ textAlign: "center" }}>
-                    <a
-                      className="btn btn-info btn-sm text-light ml-1"
+                    <button
+                      className="btn btn-info btn-sm text-light pr-2 pl-2 btn-success"
                       onClick={() => {
                         this.editStatus(
                           row.original.uid,
@@ -143,7 +143,7 @@ class Users extends Component {
                       }}
                     >
                       Activate
-                    </a>
+                    </button>
                   </div>
                 </div>
               )}
@@ -195,17 +195,17 @@ class Users extends Component {
     return (
       <Page>
         <div className="d-flex justify-content-start">
-          <h2 className="mr-5">Users</h2>
+          <h1 className="mr-5 mb-2">Users</h1>
           <div className="mr-3">
             <Link to={`/users/t`}>
-              <button className="btn btn-dark btn-info btn-sm">
+              <button className="btn btn-dark btn-info btn-sm p-2">
                 Traveller's Data
               </button>
             </Link>
           </div>
           <div className="mr-5">
             <Link to={`/users/p`}>
-              <button className="btn btn-dark btn-info btn-sm">
+              <button className="btn btn-dark btn-info btn-sm p-2">
                 Photographer's Data
               </button>
             </Link>
