@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
-// import { Route, Link } from "react-router-dom";
 import axios from "axios";
 
 import Page from "../Page";
@@ -12,10 +11,38 @@ class Manage extends Component {
     super();
     this.state = {
       users: {
-        metadata: null
+        metadata: null,
+        servicedata: null
       }
     };
     this.getData = this.getData.bind(this);
+    this.getDataPhotographers = this.getDataPhotographers.bind(this);
+  }
+
+  async getDataPhotographers() {
+    let uid = `${this.props.match.params.uid}`;
+    let queryParams = `${
+      process.env.REACT_APP_API_HOSTNAME
+    }/api/photographers/${uid}`;
+
+    console.log(queryParams);
+    await axios
+      .get(queryParams)
+      .then(response => {
+        {
+          this.setState(prevState => {
+            return {
+              users: {
+                ...prevState.users,
+                servicedata: response.data.data
+              }
+            };
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   async getData() {
@@ -31,10 +58,13 @@ class Manage extends Component {
       .get(queryParams)
       .then(response => {
         if (response.data.data.length > 0) {
-          this.setState({
-            users: {
-              metadata: response.data.data[0]
-            }
+          this.setState(prevState => {
+            return {
+              users: {
+                ...prevState.users,
+                metadata: response.data.data[0]
+              }
+            };
           });
         }
       })
@@ -43,15 +73,19 @@ class Manage extends Component {
       });
   }
 
-  async componentDidMount() {
-    await this.getData();
+  componentDidMount() {
+    this.getDataPhotographers();
+    this.getData();
     console.log(this.state.users.metadata);
+    console.log(this.state.users.servicedata);
   }
 
   render() {
+    console.log(this.state.users.metadata);
+    console.log(this.state.users.servicedata);
     return (
       <Page>
-        {this.state.users.metadata ? (
+        {this.state.users.metadata && this.state.users.servicedata ? (
           <div className="container">
             {`${this.props.match.params.usertype}` === "t" ? (
               <div>
