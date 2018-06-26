@@ -3,6 +3,7 @@ import ReactTable from "react-table";
 import axios from "axios";
 import { Route, Link } from "react-router-dom";
 import "react-table/react-table.css";
+import { database } from "../services/database.js";
 
 import Page from "../Page";
 import Manage from "./Manage";
@@ -16,7 +17,7 @@ class Users extends Component {
         totalData: 0
       }
     };
-    this.editStatusSuspend = this.editStatusSuspend.bind(this);
+    this.editStatus = this.editStatus.bind(this);
   }
 
   fetchUsersData = state => {
@@ -28,7 +29,7 @@ class Users extends Component {
     let queryParams = `userType=${
       this.props.match.params.usertype
     }&page=${page}`;
-    console.log(queryParams);
+    // console.log(queryParams);
 
     if (filtered.length > 0) {
       filtered.forEach(item => {
@@ -52,39 +53,31 @@ class Users extends Component {
             };
           });
         }
-        console.log(this.state.users.data);
+        // console.log(this.state.users.data);
       })
       .catch(error => {
         console.error(error);
       });
   };
 
-  async editStatusSuspend(uid, displayName) {
-    const key = {
-      uid: uid,
-      displayName: displayName
-    };
-    console.log(key);
+  async editStatus(uid, enable) {
+    var user_metadataRef = database
+      .database()
+      .ref()
+      .child("user_metadata");
+    var uidRef = user_metadataRef.child(uid);
 
-    let queryParams = `userType=${this.props.match.params.usertype}`;
-    queryParams = queryParams + `&filter[${key.uid}]=${key.displayName}`;
-    console.log(queryParams);
-
-    await axios({
-      url: `${
-        process.env.REACT_APP_API_HOSTNAME
-      }/api/admin/users/?${queryParams}`,
-      method: "PUT",
-      data: {
+    if (enable === 1) {
+      await uidRef.update({
         enable: 0
-      }
-    })
-      .then(res => {
-        console.log(res.data);
-      })
-      .catch(error => {
-        console.log(error);
       });
+    } else {
+      await uidRef.update({
+        enable: 1
+      });
+    }
+    alert("the data successfully updated");
+    window.location.reload();
   }
 
   render() {
@@ -115,10 +108,7 @@ class Users extends Component {
                     <button
                       className="btn btn-info btn-sm text-light ml-3 btn-danger"
                       onClick={() => {
-                        this.editStatusSuspend(
-                          row.original.uid,
-                          row.original.displayName
-                        );
+                        this.editStatus(row.original.uid, row.original.enable);
                       }}
                     >
                       Suspend
@@ -138,7 +128,8 @@ class Users extends Component {
                       onClick={() => {
                         this.editStatus(
                           row.original.uid,
-                          row.original.displayName
+                          row.original.displayName,
+                          row.original.enable
                         );
                       }}
                     >

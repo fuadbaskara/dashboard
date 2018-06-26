@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import { Link, Route } from "react-router-dom";
 import axios from "axios";
 
 import Page from "../Page";
@@ -49,6 +50,7 @@ class Manage extends Component {
     let userType = `${this.props.match.params.usertype}`;
     let uid = `${this.props.match.params.uid}`;
     let displayName = `${this.props.match.params.displayName}`;
+    console.log(this.props.match.url);
 
     let queryParams = `${
       process.env.REACT_APP_API_HOSTNAME
@@ -92,30 +94,104 @@ class Manage extends Component {
                 <div className="m-3">
                   <h3>Traveller's Data</h3>
                 </div>
-                <FormTravellers
-                  displayName={this.state.users.metadata.displayName}
-                  uid={this.state.users.metadata.uid}
-                  email={this.state.users.metadata.email}
-                  userType={this.state.users.metadata.userType}
-                  phoneNumber={this.state.users.metadata.phoneNumber}
-                  created={this.state.users.metadata.created}
-                  enable={this.state.users.metadata.enable}
-                />
+                <div className="row">
+                  <div className="col-md-3 col-lg-3 col-xl-3">
+                    <Link to={`${this.props.match.url}/metadata`}>
+                      <Button>User Metadata</Button>
+                    </Link>
+                  </div>
+                  <div className="col-md-9 col-lg-9 col-xl-9">
+                    <Route
+                      path={`${this.props.match.url}/`}
+                      render={() => (
+                        <FormTravellers
+                          displayName={this.state.users.metadata.displayName}
+                          uid={this.state.users.metadata.uid}
+                          email={this.state.users.metadata.email}
+                          userType={this.state.users.metadata.userType}
+                          phoneNumber={this.state.users.metadata.phoneNumber}
+                          created={this.state.users.metadata.created}
+                          enable={this.state.users.metadata.enable}
+                        />
+                      )}
+                    />
+                    <Route
+                      path={`${this.props.match.url}/metadata`}
+                      render={() => (
+                        <FormTravellers
+                          displayName={this.state.users.metadata.displayName}
+                          uid={this.state.users.metadata.uid}
+                          email={this.state.users.metadata.email}
+                          userType={this.state.users.metadata.userType}
+                          phoneNumber={this.state.users.metadata.phoneNumber}
+                          created={this.state.users.metadata.created}
+                          enable={this.state.users.metadata.enable}
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
               </div>
             ) : (
               <div>
                 <div className="m-3">
                   <h3>Photographer's Data</h3>
                 </div>
-                <FormPhotographers
-                  displayName={this.state.users.metadata.displayName}
-                  uid={this.state.users.metadata.uid}
-                  email={this.state.users.metadata.email}
-                  userType={this.state.users.metadata.userType}
-                  phoneNumber={this.state.users.metadata.phoneNumber}
-                  created={this.state.users.metadata.created}
-                  enable={this.state.users.metadata.enable}
-                />
+                <div className="row">
+                  <div className="col-sm-2 col-md-3 col-lg-3 col-xl-3">
+                    <Link to={`${this.props.match.url}/metadata`}>
+                      <Button>User Metadata</Button>
+                    </Link>
+                    <Link to={`${this.props.match.url}/services`}>
+                      <Button>Photographer Services</Button>
+                    </Link>
+                  </div>
+                  <div className="col-sm-10 col-md-9 col-lg-9 col-xl-9">
+                    <Route
+                      exact
+                      path={`${this.props.match.url}/`}
+                      render={() => (
+                        <FormPhotographers
+                          displayName={this.state.users.metadata.displayName}
+                          uid={this.state.users.metadata.uid}
+                          email={this.state.users.metadata.email}
+                          userType={this.state.users.metadata.userType}
+                          phoneNumber={this.state.users.metadata.phoneNumber}
+                          created={this.state.users.metadata.created}
+                          enable={this.state.users.metadata.enable}
+                        />
+                      )}
+                    />
+                    <Route
+                      path={`${this.props.match.url}/metadata`}
+                      render={() => (
+                        <FormPhotographers
+                          displayName={this.state.users.metadata.displayName}
+                          uid={this.state.users.metadata.uid}
+                          email={this.state.users.metadata.email}
+                          userType={this.state.users.metadata.userType}
+                          phoneNumber={this.state.users.metadata.phoneNumber}
+                          created={this.state.users.metadata.created}
+                          enable={this.state.users.metadata.enable}
+                        />
+                      )}
+                    />
+                    <Route
+                      path={`${this.props.match.url}/services`}
+                      render={() => (
+                        <FormPhotographers
+                          displayName={this.state.users.metadata.displayName}
+                          uid={this.state.users.metadata.uid}
+                          email={this.state.users.metadata.email}
+                          userType={this.state.users.metadata.userType}
+                          phoneNumber={this.state.users.metadata.phoneNumber}
+                          created={this.state.users.metadata.created}
+                          enable={this.state.users.metadata.enable}
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
               </div>
             )}
           </div>

@@ -6,6 +6,7 @@ import ScrollToTop from "./ScrollToTop";
 import Home from "./components/Home";
 import Users from "./components/Users";
 import Manage from "./components/Manage";
+import FormPhotographers from "./components/FormPhotographers";
 
 const App = props => (
   <Router history={history}>
