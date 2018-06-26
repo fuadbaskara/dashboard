@@ -95,7 +95,7 @@ class Manage extends Component {
                   <h3>Traveller's Data</h3>
                 </div>
                 <div className="row">
-                  <div className="col-md-3 col-lg-3 col-xl-3">
+                  <div className="col-md-3 col-lg-3 col-xl-3 mt-3">
                     <Link to={`${this.props.match.url}/metadata`}>
                       <Button>User Metadata</Button>
                     </Link>
@@ -138,12 +138,12 @@ class Manage extends Component {
                   <h3>Photographer's Data</h3>
                 </div>
                 <div className="row">
-                  <div className="col-sm-2 col-md-3 col-lg-3 col-xl-3">
+                  <div className="col-sm-2 col-md-3 col-lg-3 col-xl-3 mt-3">
                     <Link to={`${this.props.match.url}/metadata`}>
                       <Button>User Metadata</Button>
                     </Link>
                     <Link to={`${this.props.match.url}/services`}>
-                      <Button>Photographer Services</Button>
+                      <Button className="mt-3">Photographer Services</Button>
                     </Link>
                   </div>
                   <div className="col-sm-10 col-md-9 col-lg-9 col-xl-9">
